@@ -1,2 +1,2 @@
-# crystal-sponsors
-Track sponsors information form different sources
+# Crystal-sponsors
+Track sponsors information from different sources
