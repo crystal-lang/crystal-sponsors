@@ -1,0 +1,5 @@
+.env
+lib/
+shard.lock
+old/
+merge.cr
