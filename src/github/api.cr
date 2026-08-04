@@ -35,12 +35,12 @@ module GitHub
       cursor = nil
 
       while has_next_page
-        after_clause = cursor ? %((after: "#{cursor}")) : ""
+        pagination = cursor ? %(, after: "#{cursor}") : ""
 
         query = <<-GRAPHQL
           {
             organization(login: "#{@org}") {
-              sponsorshipsAsMaintainer(first: 100#{after_clause}) {
+              sponsorshipsAsMaintainer(first: 100#{pagination}) {
                 pageInfo {
                   hasNextPage
                   endCursor

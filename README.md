@@ -3,7 +3,7 @@ Track sponsors information from different sources. These scripts are supposed to
 
 ## Data files
 
-The _history files to keep information about transactions and changes along the time.
+The _history files keep information about transactions and changes along the time.
 The <sponsorship_platform>.json aligns with the current structure the website uses to expose sponsor information.
 
 ## Open collective
@@ -21,5 +21,8 @@ Set your GitHub token in a `.env` file:
 GITHUB_TOKEN=your_token_here
 
 Then run:
+```bash
+export $(grep -v '^#' .env | xargs)
 crystal run src/main_github.cr
 crystal run src/main_opencollective.cr
+```

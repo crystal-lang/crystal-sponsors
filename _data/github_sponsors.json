@@ -1,25 +1,25 @@
 [
   {
-    "name": "HAHWUL",
+    "name": "hahwul",
     "last_payment": 1,
-    "time_last_payment": "Apr 29, 2026",
-    "all_time": 2,
+    "time_last_payment": "Jul 29, 2026",
+    "all_time": 5,
     "since": "Mar 29, 2026"
   },
   {
     "name": "Wilson",
     "url": "https://krthr.co/",
     "last_payment": 5,
-    "time_last_payment": "May 21, 2026",
-    "all_time": 25,
+    "time_last_payment": "Jul 21, 2026",
+    "all_time": 35,
     "since": "Jan 21, 2026"
   },
   {
     "name": "Omar Alani",
     "url": "https://omaralani.dev",
     "last_payment": 20,
-    "time_last_payment": "May 15, 2026",
-    "all_time": 120,
+    "time_last_payment": "Jul 15, 2026",
+    "all_time": 160,
     "since": "Dec 15, 2025"
   }
 ]
