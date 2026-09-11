@@ -7,10 +7,9 @@ version: 0.1.0
 # description: |
 #   Short description of sponsors
 
-# dependencies:
-#   pg:
-#     github: will/crystal-pg
-#     version: "~> 0.5"
+dependencies:
+  sqlite3:
+    github: crystal-lang/crystal-sqlite3
 
 # development_dependencies:
 #   webmock:
