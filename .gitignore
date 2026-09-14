@@ -1,5 +1,4 @@
 .env
 lib/
 shard.lock
-merge.cr
 src/manual_update.sql
