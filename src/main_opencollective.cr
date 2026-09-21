@@ -4,7 +4,7 @@ require "./opencollective/models"
 require "./db/db"
 
 team        = "crystal-lang"
-data_dir    = "#{__DIR__}/../_data"
+data_dir    = "_data"
 output_file = "#{data_dir}/opencollective.json"
 
 Dir.mkdir_p(data_dir)

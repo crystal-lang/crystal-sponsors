@@ -5,7 +5,7 @@ require "./github/models"
 
 token    = ENV["GITHUB_TOKEN"]? || raise "GITHUB_TOKEN environment variable required"
 org      = "crystal-lang"
-data_dir = "#{__DIR__}/../_data"
+data_dir = "_data"
 output_file  = "#{data_dir}/github_sponsors.json"
 
 Dir.mkdir_p(data_dir)
