@@ -1,26 +1,22 @@
-require "./sponsors_data"
+require "./sponsors"
 require "./github/api"
+require "./db/db"
 require "./github/models"
 
 token    = ENV["GITHUB_TOKEN"]? || raise "GITHUB_TOKEN environment variable required"
 org      = "crystal-lang"
-data_dir = "#{__DIR__}/../_data"
-history_file = "#{data_dir}/github_sponsors_history.json"
+data_dir = "_data"
 output_file  = "#{data_dir}/github_sponsors.json"
 
 Dir.mkdir_p(data_dir)
 
-github  = GitHub::API.new(org, token)
-sponsors = DataSponsorsBuilder.new
+db       = SponsorsDB.connect
+github   = GitHub::API.new(org, token)
+sponsors = SponsorsBuilder.new
 
 now = Time.utc
 
-history_map =
-  if File.exists?(history_file)
-    Array(GitHub::SponsorHistory).from_json(File.read(history_file)).to_h { |s| {s.login, s} }
-  else
-    {} of String => GitHub::SponsorHistory
-  end
+history_map = GitHub::SponsorHistory.load_all(db)
 
 github.sponsorships.each do |sponsorship|
   if existing = history_map[sponsorship.login]?
@@ -38,7 +34,10 @@ github.sponsorships.each do |sponsorship|
   end
 end
 
-File.write(history_file, history_map.values.to_pretty_json)
+history_map.values.each do |history|
+  history.save(db)
+  history.record_run(db, now)
+end
 
 history_map.values.each do |history|
   sponsors.add Sponsor.new(history.name, history.url, history.logo, history.last_payment, history.total_contributed, nil, history.since, nil, history.last_billed_at)

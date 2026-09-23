@@ -47,7 +47,7 @@ record Sponsor, name : String, url : String?, logo : String?, last_payment : Flo
     url
   end
 
-  # Returns the last payment and the time of the last payment according to which is the last one
+  # Returns the last payment and its time
   def merge_last_payment(other : Sponsor) : {Float64, Time?}
     return {last_payment, time_last_payment} if other.time_last_payment.nil?
     return {other.last_payment, other.time_last_payment} if time_last_payment.nil? || time_last_payment.not_nil! < other.time_last_payment.not_nil!
