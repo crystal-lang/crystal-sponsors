@@ -1,0 +1,47 @@
+name: Weekly sponsors data update
+
+on:
+  schedule:
+    - cron: "0 12 * * 2"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-sponsors-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Crystal
+        uses: crystal-lang/install-crystal@v1
+
+      - name: Install sqlite3 CLI
+        run: sudo apt-get update && sudo apt-get install -y sqlite3
+
+      - name: Install shards
+        run: shards install
+
+      - name: Run GitHub sponsors script
+        env:
+          GITHUB_TOKEN: ${{ secrets.SPONSORS_PAT }}
+        run: crystal run src/main_github.cr
+
+      - name: Run OpenCollective sponsors script
+        run: crystal run src/main_opencollective.cr
+
+      - name: Open PR with updated data
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "Update sponsors data"
+          title: "Weekly sponsors data update"
+          body: |
+            Automated weekly run of `main_github.cr` and `main_opencollective.cr`.
+
+            Please review the changes to `_data/` before merging.
+          branch: data-update
+          add-paths: _data/
+          delete-branch: true
