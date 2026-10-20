@@ -33,6 +33,9 @@ jobs:
       - name: Run OpenCollective sponsors script
         run: crystal run src/main_opencollective.cr
 
+      - name: Generate sponsors.csv
+        run: crystal run src/main_export.cr
+
       - name: Open PR with updated data
         uses: peter-evans/create-pull-request@v6
         with:
