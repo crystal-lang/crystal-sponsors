@@ -25,7 +25,8 @@ module GitHub
     end
 
     private def self.optional_string(entity : JSON::Any, key : String) : String?
-      entity.dig?(key).try(&.as_s?).try(&.presence)
+      entity.dig?(key).try(&.as_s?.presence)
+      
     end
   end
 
