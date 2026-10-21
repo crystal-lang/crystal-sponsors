@@ -4,10 +4,11 @@ require "json"
 module GitHub
   record Sponsorship, login : String, name : String, url : String, logo : String?, tier : Float64, is_active : Bool, created_at : Time do
     def self.from_graphql(node : JSON::Any) : Sponsorship?
-      # sponsorEntity can be missing or null (e.g. a deleted account).
-      entity = object?(node, "sponsorEntity")
-      login = entity.try(&.["login"]?).try(&.as_s?)
-      return nil unless entity && login
+      entity = node["sponsorEntity"]?
+      return nil unless entity
+
+      login = optional_string(entity, "login")
+      return nil unless login
 
       website = optional_string(entity, "websiteUrl").try(&.sub(/^(?!https?:\/\/)/, "https://"))
       twitter = optional_string(entity, "twitterUsername").try { |handle| "https://twitter.com/#{handle}" }
@@ -17,18 +18,14 @@ module GitHub
         name: optional_string(entity, "name") || login,
         url: website || twitter || "https://github.com/#{login}",
         logo: optional_string(entity, "avatarUrl").try(&.split('?').first),
-        tier: object?(node, "tier").try(&.["monthlyPriceInDollars"]?).try(&.as_i?).try(&.to_f) || 0.0,
+        tier: node.dig?("tier", "monthlyPriceInDollars").try(&.as_i?).try(&.to_f) || 0.0,
         is_active: node["isActive"]?.try(&.as_bool?) || false,
         created_at: Time.parse_rfc3339(node["createdAt"].as_s)
       )
     end
 
     private def self.optional_string(entity : JSON::Any, key : String) : String?
-      entity[key]?.try(&.as_s?).try(&.presence)
-    end
-
-    private def self.object?(node : JSON::Any, key : String) : JSON::Any?
-      node[key]?.try { |value| value if value.as_h? }
+      entity.dig?(key).try(&.as_s?).try(&.presence)
     end
   end
 
