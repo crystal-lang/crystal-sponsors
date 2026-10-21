@@ -1,0 +1,67 @@
+[
+  {
+    "name": "Manas.Tech",
+    "url": "https://manas.tech/",
+    "logo": "manas-orange.svg",
+    "last_payment": 5000,
+    "time_last_payment": "Oct 13, 2026",
+    "all_time": 1455000,
+    "since": "Jun 19, 2009"
+  },
+  {
+    "name": "Nikola Motor Company",
+    "last_payment": 0,
+    "all_time": 165000,
+    "since": "Mar 1, 2020"
+  },
+  {
+    "name": "84codes",
+    "url": "https://www.84codes.com/",
+    "logo": "sponsors/84.png",
+    "last_payment": 22000,
+    "time_last_payment": "Oct 13, 2026",
+    "all_time": 1051000,
+    "currency": "€",
+    "since": "Apr 1, 2018"
+  },
+  {
+    "overrides": "MailerToGo",
+    "name": "MailerToGo",
+    "logo": "sponsors/mailertogo.svg",
+    "last_payment": 0,
+    "all_time": 0,
+    "since": "Dec 7, 2024"
+  },
+  {
+    "overrides": "Bookyourdata.com",
+    "name": "Bookyourdata.com",
+    "last_payment": 0,
+    "all_time": 425,
+    "since": "Apr 14, 2019"
+  },
+  {
+    "name": "Works on Arm",
+    "url": "https://developer.arm.com/solutions/infrastructure/works-on-arm",
+    "logo": "sponsors/woa.png",
+    "last_payment": 0,
+    "all_time": 0,
+    "since": "Jul 22, 2021",
+    "listed": false
+  },
+  {
+    "overrides": "Austin Robert Bales",
+    "name": "Austin Robert Bales",
+    "logo": "sponsors/empty.svg",
+    "last_payment": 0,
+    "all_time": 0,
+    "since": "May 4, 2024"
+  },
+  {
+    "overrides": "Buy Instagram Followers & Likes",
+    "name": "LeoFame",
+    "url": "https://leofame.com",
+    "last_payment": 25,
+    "all_time": 0,
+    "since": "Jun 28, 2024"
+  }
+]
