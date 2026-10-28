@@ -7,20 +7,26 @@ module GitHub
       entity = node["sponsorEntity"]?
       return nil unless entity
 
-      login = entity["login"].as_s
-      url = entity["websiteUrl"]?.try(&.as_s.sub(/^(?!https?:\/\/)/, "https://")) ||
-            entity["twitterUsername"]?.try(&.as_s.sub(/^/, "https://twitter.com/")) ||
-            "https://github.com/#{login}"
+      login = optional_string(entity, "login")
+      return nil unless login
+
+      website = optional_string(entity, "websiteUrl").try(&.sub(/^(?!https?:\/\/)/, "https://"))
+      twitter = optional_string(entity, "twitterUsername").try { |handle| "https://twitter.com/#{handle}" }
 
       new(
         login: login,
-        name: entity["name"]?.try(&.as_s) || login,
-        url: url,
-        logo: entity["avatarUrl"]?.try(&.as_s.split('?').first),
-        tier: node.dig?("tier", "monthlyPriceInDollars").try(&.as_i.to_f) || 0.0,
-        is_active: node["isActive"]?.try(&.as_bool) || false,
+        name: optional_string(entity, "name") || login,
+        url: website || twitter || "https://github.com/#{login}",
+        logo: optional_string(entity, "avatarUrl").try(&.split('?').first),
+        tier: node.dig?("tier", "monthlyPriceInDollars").try(&.as_i?).try(&.to_f) || 0.0,
+        is_active: node["isActive"]?.try(&.as_bool?) || false,
         created_at: Time.parse_rfc3339(node["createdAt"].as_s)
       )
+    end
+
+    private def self.optional_string(entity : JSON::Any, key : String) : String?
+      entity.dig?(key).try(&.as_s?.presence)
+      
     end
   end
 
@@ -35,12 +41,12 @@ module GitHub
       cursor = nil
 
       while has_next_page
-        pagination = cursor ? %(, after: "#{cursor}") : ""
+        after_clause = cursor ? %(, after: "#{cursor}") : ""
 
         query = <<-GRAPHQL
           {
             organization(login: "#{@org}") {
-              sponsorshipsAsMaintainer(first: 100#{pagination}) {
+              sponsorshipsAsMaintainer(first: 100#{after_clause}) {
                 pageInfo {
                   hasNextPage
                   endCursor
