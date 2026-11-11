@@ -2,6 +2,7 @@ require "./sponsors"
 require "./github/api"
 require "./db/db"
 require "./github/models"
+require "./sponsors_data"
 
 token    = ENV["GITHUB_TOKEN"]? || raise "GITHUB_TOKEN environment variable required"
 org      = "crystal-lang"
@@ -12,7 +13,7 @@ Dir.mkdir_p(data_dir)
 
 db       = SponsorsDB.connect
 github   = GitHub::API.new(org, token)
-sponsors = SponsorsBuilder.new
+sponsors = DataSponsorsBuilder.new
 
 now = Time.utc
 
