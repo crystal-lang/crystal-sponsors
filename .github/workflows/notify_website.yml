@@ -1,0 +1,21 @@
+name: Notify website
+on:
+  pull_request:
+    types: [closed]
+    branches: [master]
+    paths: ["_data/**"]
+
+jobs:
+  dispatch:
+    if: >
+      github.event.pull_request.merged == true &&
+      github.event.pull_request.head.ref == 'data-update'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger the website's sponsors update
+        env:
+          GH_TOKEN: ${{ secrets.WEBSITE_DISPATCH_TOKEN }}
+        run: |
+          gh api repos/crystal-lang/crystal-website/dispatches \
+            -f event_type=sponsors-updated \
+            -f 'client_payload[sha]=${{ github.event.pull_request.merge_commit_sha }}'

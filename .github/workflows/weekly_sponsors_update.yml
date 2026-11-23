@@ -42,7 +42,7 @@ jobs:
           commit-message: "Update sponsors data"
           title: "Weekly sponsors data update"
           body: |
-            Automated weekly run of `main_github.cr` and `main_opencollective.cr`.
+            Automated weekly run of `main_export.cr`, `main_opencollective.cr` and `main_export.cr`
 
             Please review the changes to `_data/` before merging.
           branch: data-update
